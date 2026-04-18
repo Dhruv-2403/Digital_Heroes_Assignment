@@ -1,0 +1,95 @@
+.charity-detail-hero {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 2rem;
+  padding-top: 8rem;
+}
+
+.charity-detail-hero__bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.charity-detail-hero__overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, rgba(8, 12, 24, 0.4), var(--color-bg));
+  z-index: 2;
+}
+
+.charity-detail-hero .container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+.charity-detail-hero__content h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.back-link {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.back-link:hover {
+  color: var(--color-text);
+}
+
+.charity-detail-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-3xl);
+}
+
+.charity-description p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.charity-description p:last-child {
+  margin-bottom: 0;
+}
+
+.charity-detail-sidebar {
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+}
+
+.current-selection-alert {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+}
+
+.border-t {
+  border-top: 1px solid var(--color-border);
+}
+
+.pt-lg { padding-top: var(--spacing-lg); }
+.inline-block { display: inline-block; }
+.block { display: block; }
+
+@media (max-width: 900px) {
+  .charity-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .charity-detail-sidebar {
+    position: static;
+  }
+  .charity-detail-hero {
+    min-height: 350px;
+  }
+}
