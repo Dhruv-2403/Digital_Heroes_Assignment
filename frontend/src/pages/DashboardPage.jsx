@@ -93,7 +93,20 @@ export default function DashboardPage() {
         
         <div className="dashboard-header flex-between">
           <div>
-            <h1>Welcome back, {user.name?.split(' ')[0]}</h1>
+            <div className="flex items-center">
+              <h1>Welcome back, {user.name?.split(' ')[0]}</h1>
+              {user.role === 'admin' && (
+                <a 
+                  href="https://digital-heroes-assignment-ha1l.vercel.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="btn btn-outline btn-sm ml-4"
+                  style={{ fontSize: '0.75rem', height: 'auto', padding: '4px 10px' }}
+                >
+                  Admin Panel
+                </a>
+              )}
+            </div>
             <p className="text-muted">Here is your current performance and draw status.</p>
           </div>
           {user.charity_id && (
