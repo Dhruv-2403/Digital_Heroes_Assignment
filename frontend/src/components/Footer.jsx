@@ -23,6 +23,7 @@ export default function Footer() {
               <li><Link to="/charities">Charities</Link></li>
               <li><Link to="/winners">Winners</Link></li>
               <li><Link to="/subscribe">Subscribe</Link></li>
+              <li><a href="https://digital-heroes-assignment-ha1l.vercel.app/login" target="_blank" rel="noopener noreferrer" style={{ opacity: 0.6 }}>Admin Panel</a></li>
             </ul>
           </div>
 

@@ -97,7 +97,7 @@ export default function DashboardPage() {
               <h1>Welcome back, {user.name?.split(' ')[0]}</h1>
               {user.role === 'admin' && (
                 <a 
-                  href="https://digital-heroes-assignment-ha1l.vercel.app" 
+                  href="https://digital-heroes-assignment-ha1l.vercel.app/login" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="btn btn-outline btn-sm ml-4"

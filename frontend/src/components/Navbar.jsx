@@ -35,6 +35,7 @@ export default function Navbar() {
           <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
           <NavLink to="/charities" className={({ isActive }) => isActive ? 'active' : ''}>Charities</NavLink>
           <NavLink to="/winners" className={({ isActive }) => isActive ? 'active' : ''}>Winners</NavLink>
+          <a href="https://digital-heroes-assignment-ha1l.vercel.app/login" target="_blank" rel="noopener noreferrer" className="navbar__admin-link" style={{ opacity: 0.5, fontSize: '0.85rem', marginLeft: '1rem' }}>Admin</a>
         </nav>
 
         { }
@@ -43,7 +44,7 @@ export default function Navbar() {
             <>
               {user.role === 'admin' && (
                 <a
-                  href="https://digital-heroes-assignment-ha1l.vercel.app"
+                  href="https://digital-heroes-assignment-ha1l.vercel.app/login"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-sm mr-2"

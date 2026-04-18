@@ -13,6 +13,15 @@ export default function UsersPage() {
       .finally(() => setLoading(false))
   }
 
+  const handleRoleChange = async (userId, newRole) => {
+    try {
+      await api.patch(`/admin/users/${userId}`, { role: newRole })
+      setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u))
+    } catch (err) {
+      alert('Failed to update role: ' + err.message)
+    }
+  }
+
   useEffect(() => {
     fetchUsers()
   }, [])
@@ -47,9 +56,23 @@ export default function UsersPage() {
                       <td className="font-medium">{user.name}</td>
                       <td className="text-muted text-sm">{user.email}</td>
                       <td>
-                        <span className={`badge badge-${user.role === 'admin' ? 'primary' : 'warning'}`}>
-                          {user.role}
-                        </span>
+                        <select
+                          value={user.role}
+                          onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                          className="badge"
+                          style={{
+                            background: user.role === 'admin' ? 'var(--color-primary)' : 'rgba(255,255,255,0.1)',
+                            border: 'none',
+                            color: '#fff',
+                            cursor: 'pointer',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            appearance: 'none'
+                          }}
+                        >
+                          <option value="subscriber">Subscriber</option>
+                          <option value="admin">Admin</option>
+                        </select>
                       </td>
                       <td>
                         {sub ? (
@@ -57,7 +80,7 @@ export default function UsersPage() {
                             {sub.status}
                           </span>
                         ) : (
-                          <span className="badge" style={{background: 'rgba(255,255,255,0.1)', color: '#fff'}}>None</span>
+                          <span className="badge" style={{ background: 'rgba(255,255,255,0.05)', color: '#fff' }}>None</span>
                         )}
                       </td>
                       <td className="text-sm text-muted">
