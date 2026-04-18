@@ -80,6 +80,18 @@ export default function Navbar() {
         <NavLink to="/winners" onClick={() => setMenuOpen(false)}>Winners</NavLink>
         {user ? (
           <>
+            {user.role === 'admin' && (
+              <a 
+                href="https://digital-heroes-assignment-ha1l.vercel.app" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => setMenuOpen(false)}
+                className="btn btn-outline btn-sm mb-2"
+                style={{ width: '100%', display: 'block', textAlign: 'center' }}
+              >
+                Admin Panel
+              </a>
+            )}
             <NavLink to="/dashboard" onClick={() => setMenuOpen(false)}>Dashboard</NavLink>
             <button onClick={handleLogout} className="btn btn-danger btn-sm mt-md">Sign Out</button>
           </>
