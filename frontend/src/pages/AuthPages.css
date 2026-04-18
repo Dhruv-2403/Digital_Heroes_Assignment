@@ -1,0 +1,159 @@
+/* ─── Auth Page Wrapper ──────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem var(--spacing-lg) var(--spacing-2xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-orb1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #6C63FF, transparent 70%);
+  top: -150px; left: -150px;
+}
+.auth-orb2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #F5A623, transparent 70%);
+  bottom: -100px; right: -100px;
+  opacity: 0.15;
+}
+
+/* ─── Auth Card ──────────────────────────────────────────────── */
+.auth-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  z-index: 1;
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+.auth-card--wide { max-width: 520px; }
+
+.auth-card__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.auth-card__header h1 { font-size: 1.8rem; margin: 0.75rem 0 0.25rem; }
+.auth-card__header p  { color: var(--color-text-muted); font-size: 0.9rem; }
+
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.auth-logo span { color: var(--color-primary); }
+
+/* ─── Steps Indicator ────────────────────────────────────────── */
+.auth-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.auth-step {
+  padding: 0.3rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  transition: var(--transition);
+}
+.auth-step.active {
+  background: rgba(108,99,255,0.15);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.auth-step-line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+  max-width: 40px;
+}
+
+/* ─── Alert ──────────────────────────────────────────────────── */
+.auth-alert {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: var(--color-danger);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+/* ─── Auth Form ──────────────────────────────────────────────── */
+.auth-form { display: flex; flex-direction: column; gap: 0; }
+
+/* ─── Charity Percentage Slider ──────────────────────────────── */
+.charity-pct-slider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+.charity-pct-slider input[type="range"] {
+  flex: 1;
+  accent-color: var(--color-primary);
+  height: 4px;
+  cursor: pointer;
+}
+.charity-pct-value {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  min-width: 3.5rem;
+  text-align: right;
+}
+.form-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+}
+
+/* ─── Back/Next Buttons ──────────────────────────────────────── */
+.auth-step-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.auth-step-buttons .btn { flex: 1; }
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.auth-card__footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+.auth-card__footer a { color: var(--color-primary); font-weight: 600; }
+
+/* ─── Demo Hint ──────────────────────────────────────────────── */
+.auth-demo-hint {
+  margin-top: 1rem;
+  padding: 0.6rem 0.9rem;
+  background: rgba(108,99,255,0.06);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+.auth-demo-hint strong { color: var(--color-primary); }
+
+@media (max-width: 480px) {
+  .auth-card { padding: 1.75rem; }
+}
