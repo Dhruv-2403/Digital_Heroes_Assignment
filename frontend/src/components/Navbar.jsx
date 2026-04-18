@@ -24,23 +24,34 @@ export default function Navbar() {
   return (
     <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <div className="container navbar__inner">
-        {}
+        { }
         <Link to="/" className="navbar__logo">
           <img src="/image.png" alt="Digital Heroes Logo" className="navbar__logo-image" />
           <span className="navbar__logo-text">Digital<span>Heroes</span></span>
         </Link>
 
-        {}
+        { }
         <nav className="navbar__links">
           <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
           <NavLink to="/charities" className={({ isActive }) => isActive ? 'active' : ''}>Charities</NavLink>
           <NavLink to="/winners" className={({ isActive }) => isActive ? 'active' : ''}>Winners</NavLink>
         </nav>
 
-        {}
+        { }
         <div className="navbar__actions">
           {user ? (
             <>
+              {user.role === 'admin' && (
+                <a
+                  href="https://digital-heroes-assignment-ha1l.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-sm mr-2"
+                  style={{ color: 'var(--color-primary)', border: '1px solid var(--color-primary)', background: 'transparent' }}
+                >
+                  Admin Panel
+                </a>
+              )}
               <Link to="/dashboard" className="btn btn-outline btn-sm">Dashboard</Link>
               <button onClick={handleLogout} className="btn btn-sm" style={{ background: 'rgba(239,68,68,0.15)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)' }}>Sign Out</button>
             </>
@@ -52,7 +63,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {}
+        { }
         <button
           className={`navbar__burger ${menuOpen ? 'open' : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -62,7 +73,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {}
+      { }
       <div className={`navbar__mobile ${menuOpen ? 'navbar__mobile--open' : ''}`}>
         <NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink>
         <NavLink to="/charities" onClick={() => setMenuOpen(false)}>Charities</NavLink>
