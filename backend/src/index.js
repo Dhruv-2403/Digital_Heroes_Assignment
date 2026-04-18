@@ -15,20 +15,26 @@ app.use('/api/webhooks/stripe', express.raw({ type: 'application/json' }));
 app.use(express.json());
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL || 'http://localhost:5173',
-    process.env.ADMIN_URL || 'http://localhost:5174',
+    process.env.FRONTEND_URL || 'https://digital-heroes-assignment-alpha.vercel.app',
+    process.env.ADMIN_URL || 'https://digital-heroes-assignment-ha1l.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:5174',
   ],
-  credentials: true,
+  credentials: true
 }));
 
-app.use('/api/auth',          require('./routes/auth'));
+app.get('/', (req, res) => {
+  res.json({ message: 'Digital Heroes API is live', documentation: '/README.md' });
+});
+
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/subscriptions', require('./routes/subscriptions'));
-app.use('/api/scores',        require('./routes/scores'));
-app.use('/api/charities',     require('./routes/charities'));
-app.use('/api/draws',         require('./routes/draws'));
-app.use('/api/winners',       require('./routes/winners'));
-app.use('/api/admin',         require('./routes/admin'));
-app.use('/api/webhooks',      require('./routes/webhooks'));
+app.use('/api/scores', require('./routes/scores'));
+app.use('/api/charities', require('./routes/charities'));
+app.use('/api/draws', require('./routes/draws'));
+app.use('/api/winners', require('./routes/winners'));
+app.use('/api/admin', require('./routes/admin'));
+app.use('/api/webhooks', require('./routes/webhooks'));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
