@@ -12,7 +12,7 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-layout">
-      {/* Sidebar */}
+      {}
       <aside className="admin-sidebar">
         <div className="admin-brand">
           Digital<span>Heroes</span>&nbsp;Admin
@@ -26,7 +26,7 @@ export default function AdminLayout() {
         </nav>
       </aside>
 
-      {/* Main Content */}
+      {}
       <main className="admin-main">
         <header className="admin-header">
           <div className="flex align-center gap-md">

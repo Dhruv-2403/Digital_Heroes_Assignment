@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react'
 import api from '../lib/api'
 import './HomePage.css'
 
-// ─── Animated counter hook ────────────────────────────────────────────────────
 function useCounter(target, duration = 2000) {
   const [count, setCount] = useState(0)
   useEffect(() => {
@@ -19,7 +18,6 @@ function useCounter(target, duration = 2000) {
   return count
 }
 
-// ─── Stat Card ────────────────────────────────────────────────────────────────
 function StatCard({ value, label, prefix = '', suffix = '' }) {
   const count = useCounter(value)
   return (
@@ -30,7 +28,6 @@ function StatCard({ value, label, prefix = '', suffix = '' }) {
   )
 }
 
-// ─── How It Works Step ────────────────────────────────────────────────────────
 function Step({ number, title, description, icon }) {
   return (
     <div className="step-card">
@@ -42,7 +39,6 @@ function Step({ number, title, description, icon }) {
   )
 }
 
-// ─── Charity Spotlight Card ───────────────────────────────────────────────────
 function CharityCard({ charity }) {
   return (
     <Link to={`/charities/${charity.id}`} className="charity-spotlight-card">
@@ -60,7 +56,6 @@ function CharityCard({ charity }) {
   )
 }
 
-// ─── Homepage ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const [featuredCharities, setFeaturedCharities] = useState([])
 
@@ -73,9 +68,8 @@ export default function HomePage() {
   return (
     <div className="home">
 
-      {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="hero">
-        {/* Background glow orbs */}
+        {}
         <div className="glow-orb hero__orb1" />
         <div className="glow-orb hero__orb2" />
 
@@ -105,7 +99,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* Mini stats */}
+          {}
           <div className="hero__stats">
             <StatCard value={1240} label="Active Players" />
             <StatCard value={48500} label="Raised for Charity" prefix="£" />
@@ -114,7 +108,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Decorative score card */}
+        {}
         <div className="hero__mockup">
           <div className="mockup-card">
             <div className="mockup-card__header">🏌️ My Scores</div>
@@ -138,7 +132,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── How It Works ─────────────────────────────────────── */}
       <section className="section how-it-works">
         <div className="container">
           <div className="section-header text-center">
@@ -160,7 +153,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Prize Tiers ──────────────────────────────────────── */}
       <section className="section prize-section">
         <div className="container">
           <div className="section-header text-center">
@@ -196,7 +188,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Featured Charities ───────────────────────────────── */}
       {featuredCharities.length > 0 && (
         <section className="section charities-section">
           <div className="container">
@@ -215,7 +206,6 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ── Final CTA ────────────────────────────────────────── */}
       <section className="section cta-section">
         <div className="container">
           <div className="cta-block">

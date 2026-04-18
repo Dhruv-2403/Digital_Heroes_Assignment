@@ -72,7 +72,7 @@ export default function WinnersPage() {
                     <td><span className="badge badge-primary">{w.match_type}</span></td>
                     <td className="text-gold font-bold">£{w.prize_amount?.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                     
-                    {/* Verification Column */}
+                    {}
                     <td>
                       {!w.proof_url ? (
                         <span className="text-muted text-sm italic">Not submitted</span>
@@ -93,14 +93,14 @@ export default function WinnersPage() {
                       )}
                     </td>
 
-                    {/* Status Column */}
+                    {}
                     <td>
                       <span className={`badge badge-${w.status === 'paid' ? 'success' : 'warning'}`}>
                         {w.status.toUpperCase()}
                       </span>
                     </td>
 
-                    {/* Actions Column */}
+                    {}
                     <td>
                       {w.status !== 'paid' && w.verification_status === 'approved' && (
                         <button className="btn btn-primary btn-sm" onClick={() => handlePay(w.id)}>

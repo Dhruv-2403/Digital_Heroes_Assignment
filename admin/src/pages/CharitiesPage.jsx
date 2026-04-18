@@ -68,7 +68,6 @@ export default function CharitiesPage() {
     }
   }
 
-  // Helper to find report total
   const getReportTotal = (charityName) => {
     const rep = reports.find(r => r.name === charityName)
     return rep ? rep.total : 0

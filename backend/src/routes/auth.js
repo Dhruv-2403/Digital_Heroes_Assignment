@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const supabase = require('../lib/supabase');
 
-// ─── Sign Up ──────────────────────────────────────────────────────────────────
 router.post('/signup', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -11,7 +10,6 @@ router.post('/signup', async (req, res) => {
     if (!name || !email || !password)
       return res.status(400).json({ error: 'Name, email and password are required' });
 
-    // Check duplicate email
     const { data: existing } = await supabase
       .from('users')
       .select('id')
@@ -38,7 +36,6 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// ─── Log In ───────────────────────────────────────────────────────────────────
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -65,12 +62,10 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// ─── Get Current User ─────────────────────────────────────────────────────────
 router.get('/me', require('../middleware/auth').authenticate, async (req, res) => {
   res.json({ user: sanitizeUser(req.user) });
 });
 
-// ─── Update Profile ───────────────────────────────────────────────────────────
 router.patch('/me', require('../middleware/auth').authenticate, async (req, res) => {
   try {
     const { name } = req.body;
@@ -87,7 +82,6 @@ router.patch('/me', require('../middleware/auth').authenticate, async (req, res)
   }
 });
 
-// ─── Change Password ──────────────────────────────────────────────────────────
 router.patch('/me/password', require('../middleware/auth').authenticate, async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -101,7 +95,6 @@ router.patch('/me/password', require('../middleware/auth').authenticate, async (
   }
 });
 
-// Strip sensitive fields from user object
 const sanitizeUser = (user) => {
   const { password_hash, ...safe } = user;
   return safe;

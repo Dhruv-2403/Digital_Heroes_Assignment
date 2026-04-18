@@ -9,14 +9,12 @@ export default function DashboardPage() {
   const [scores, setScores] = useState([])
   const [winnings, setWinnings] = useState([])
   const [loading, setLoading] = useState(true)
-  
-  // Score Input State
+
   const [scoreInput, setScoreInput] = useState('')
   const [dateInput, setDateInput] = useState(new Date().toISOString().split('T')[0])
   const [scoreError, setScoreError] = useState('')
   const [submittingScore, setSubmittingScore] = useState(false)
 
-  // Subscription Details
   const activeSub = user?.subscriptions?.find(s => s.status === 'active')
 
   useEffect(() => {
@@ -42,9 +40,7 @@ export default function DashboardPage() {
 
     try {
       const { data } = await api.post('/scores', { score: Number(scoreInput), date: dateInput })
-      
-      // Update scores list locally (rolling window of 5 logic is handled by backend, 
-      // but we just refetch to be safe/lazy, or just refresh the page)
+
       const res = await api.get('/scores')
       setScores(res.data.scores || [])
       
@@ -109,10 +105,10 @@ export default function DashboardPage() {
         </div>
 
         <div className="dashboard-grid mt-xl">
-          {/* Main Column */}
+          {}
           <div className="dashboard-main">
             
-            {/* Scores Card */}
+            {}
             <div className="card dashboard-card">
               <div className="card-header flex-between mb-lg">
                 <h3>My Recent Scores</h3>
@@ -138,7 +134,7 @@ export default function DashboardPage() {
                 )}
               </div>
 
-              {/* Add Score Form */}
+              {}
               <div className="add-score-form p-4" style={{background: 'rgba(255,255,255,0.02)', borderRadius: 'var(--radius-md)'}}>
                 <h4 className="mb-md">Enter New Score</h4>
                 {scoreError && <div className="text-danger mb-sm text-sm">{scoreError}</div>}
@@ -159,7 +155,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Winnings Card */}
+            {}
             {winnings.length > 0 && (
               <div className="card dashboard-card mt-lg">
                 <div className="card-header mb-lg">
@@ -187,10 +183,10 @@ export default function DashboardPage() {
             )}
           </div>
 
-          {/* Sidebar */}
+          {}
           <div className="dashboard-sidebar">
             
-            {/* Draw Status */}
+            {}
             <div className="card dashboard-card draw-status-card">
               <div className="draw-status-card__icon">🎯</div>
               <h3>Next Draw</h3>
@@ -212,7 +208,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Subscription */}
+            {}
             <div className="card dashboard-card mt-lg">
               <h3 className="mb-md">Subscription</h3>
               <div className="flex-between mb-md">

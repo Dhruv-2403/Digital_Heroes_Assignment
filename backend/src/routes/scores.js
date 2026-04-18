@@ -6,8 +6,6 @@ const MAX_SCORES = 5;
 const MIN_SCORE = 1;
 const MAX_SCORE = 45;
 
-// ─── Get My Scores ────────────────────────────────────────────────────────────
-// GET /api/scores
 router.get('/', authenticate, requireSubscription, async (req, res) => {
   const { data, error } = await supabase
     .from('scores')
@@ -19,20 +17,16 @@ router.get('/', authenticate, requireSubscription, async (req, res) => {
   res.json({ scores: data });
 });
 
-// ─── Add a Score ──────────────────────────────────────────────────────────────
-// POST /api/scores
 router.post('/', authenticate, requireSubscription, async (req, res) => {
   try {
     const { score, date } = req.body;
 
-    // Validate score range
     if (!score || score < MIN_SCORE || score > MAX_SCORE)
       return res.status(400).json({ error: `Score must be between ${MIN_SCORE} and ${MAX_SCORE}` });
 
     if (!date)
       return res.status(400).json({ error: 'Date is required' });
 
-    // Prevent duplicate date entries
     const { data: existing } = await supabase
       .from('scores')
       .select('id')
@@ -43,20 +37,17 @@ router.post('/', authenticate, requireSubscription, async (req, res) => {
     if (existing)
       return res.status(409).json({ error: 'A score for this date already exists. Edit or delete it instead.' });
 
-    // Count current scores
     const { data: allScores } = await supabase
       .from('scores')
       .select('id, date')
       .eq('user_id', req.user.id)
       .order('date', { ascending: true });
 
-    // Rolling window: if at max, delete the oldest
     if (allScores && allScores.length >= MAX_SCORES) {
       const oldest = allScores[0];
       await supabase.from('scores').delete().eq('id', oldest.id);
     }
 
-    // Insert new score
     const { data: newScore, error } = await supabase
       .from('scores')
       .insert({ user_id: req.user.id, score: parseInt(score), date })
@@ -70,14 +61,11 @@ router.post('/', authenticate, requireSubscription, async (req, res) => {
   }
 });
 
-// ─── Edit a Score ─────────────────────────────────────────────────────────────
-// PATCH /api/scores/:id
 router.patch('/:id', authenticate, requireSubscription, async (req, res) => {
   try {
     const { score, date } = req.body;
     const { id } = req.params;
 
-    // Verify ownership
     const { data: existing } = await supabase
       .from('scores')
       .select('*')
@@ -87,7 +75,6 @@ router.patch('/:id', authenticate, requireSubscription, async (req, res) => {
 
     if (!existing) return res.status(404).json({ error: 'Score not found' });
 
-    // If changing date, check for duplicate
     if (date && date !== existing.date) {
       const { data: dup } = await supabase
         .from('scores')
@@ -100,7 +87,6 @@ router.patch('/:id', authenticate, requireSubscription, async (req, res) => {
       if (dup) return res.status(409).json({ error: 'A score for this date already exists' });
     }
 
-    // Validate score range
     if (score && (score < MIN_SCORE || score > MAX_SCORE))
       return res.status(400).json({ error: `Score must be between ${MIN_SCORE} and ${MAX_SCORE}` });
 
@@ -122,8 +108,6 @@ router.patch('/:id', authenticate, requireSubscription, async (req, res) => {
   }
 });
 
-// ─── Delete a Score ───────────────────────────────────────────────────────────
-// DELETE /api/scores/:id
 router.delete('/:id', authenticate, requireSubscription, async (req, res) => {
   try {
     const { data: existing } = await supabase

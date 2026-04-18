@@ -40,7 +40,7 @@ export default function SignupPage() {
     setError('')
     try {
       await signup(form.name, form.email, form.password)
-      // Set charity if selected
+
       if (selectedCharity) {
         await api.post('/charities/select', {
           charity_id: selectedCharity,
@@ -68,7 +68,7 @@ export default function SignupPage() {
           <p>{step === 1 ? 'Play. Win. Give back.' : 'At least 10% of your subscription will be donated'}</p>
         </div>
 
-        {/* Step indicator */}
+        {}
         <div className="auth-steps">
           <div className={`auth-step ${step >= 1 ? 'active' : ''}`}>1 Account</div>
           <div className="auth-step-line" />
@@ -77,7 +77,7 @@ export default function SignupPage() {
 
         {error && <div className="auth-alert">{error}</div>}
 
-        {/* Step 1 — Account Info */}
+        {}
         {step === 1 && (
           <form onSubmit={handleStep1} className="auth-form">
             <div className="form-group">
@@ -106,7 +106,7 @@ export default function SignupPage() {
           </form>
         )}
 
-        {/* Step 2 — Charity Selection */}
+        {}
         {step === 2 && (
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">

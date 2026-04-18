@@ -2,12 +2,10 @@ const router = require('express').Router();
 const supabase = require('../lib/supabase');
 const { authenticate, requireAdmin } = require('../middleware/auth');
 
-// Prize pool split percentages
 const POOL_SPLIT = { five: 0.40, four: 0.35, three: 0.25 };
-// Subscription contribution to prize pool (£ per active subscriber per month)
+
 const POOL_CONTRIBUTION_MONTHLY = 5; // £5 per subscriber goes to prize pool
 
-// ─── List Draws ───────────────────────────────────────────────────────────────
 router.get('/', async (req, res) => {
   const { data, error } = await supabase
     .from('draws')
@@ -17,7 +15,6 @@ router.get('/', async (req, res) => {
   res.json({ draws: data });
 });
 
-// ─── Get Draw by ID ───────────────────────────────────────────────────────────
 router.get('/:id', async (req, res) => {
   const { data, error } = await supabase
     .from('draws')
@@ -28,12 +25,10 @@ router.get('/:id', async (req, res) => {
   res.json({ draw: data });
 });
 
-// ─── Create / Configure Draw (admin) ─────────────────────────────────────────
 router.post('/', authenticate, requireAdmin, async (req, res) => {
   try {
     const { month, draw_type } = req.body; // draw_type: 'random' | 'algorithmic'
 
-    // Check for existing draw this month
     const { data: existing } = await supabase
       .from('draws')
       .select('id')
@@ -54,7 +49,6 @@ router.post('/', authenticate, requireAdmin, async (req, res) => {
   }
 });
 
-// ─── Simulate / Run Draw (admin) ──────────────────────────────────────────────
 router.post('/:id/simulate', authenticate, requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -62,17 +56,14 @@ router.post('/:id/simulate', authenticate, requireAdmin, async (req, res) => {
     const { data: draw } = await supabase.from('draws').select('*').eq('id', id).single();
     if (!draw) return res.status(404).json({ error: 'Draw not found' });
 
-    // Get all active subscribers with their 5 latest scores
     const { data: subscribers } = await supabase
       .from('users')
       .select('id, scores(score, date)')
       .eq('role', 'subscriber')
       .not('scores', 'is', null);
 
-    // Filter: only users with exactly >=1 score (need at least some scores to enter)
     const eligible = subscribers.filter(u => u.scores && u.scores.length > 0);
 
-    // Generate draw numbers based on draw type
     let drawNumbers;
     if (draw.draw_type === 'algorithmic') {
       drawNumbers = generateAlgorithmicNumbers(eligible);
@@ -80,7 +71,6 @@ router.post('/:id/simulate', authenticate, requireAdmin, async (req, res) => {
       drawNumbers = generateRandomNumbers();
     }
 
-    // Calculate prize pool
     const activeCount = eligible.length;
     const { data: rolledJackpot } = await supabase
       .from('draws')
@@ -98,7 +88,6 @@ router.post('/:id/simulate', authenticate, requireAdmin, async (req, res) => {
       three_match_pool: basePool * POOL_SPLIT.three,
     };
 
-    // Find winners
     const winners = [];
     for (const user of eligible) {
       const userNumbers = user.scores
@@ -117,7 +106,6 @@ router.post('/:id/simulate', authenticate, requireAdmin, async (req, res) => {
       }
     }
 
-    // Update draw with numbers and set to simulated
     const { data: updatedDraw, error: updateError } = await supabase
       .from('draws')
       .update({ draw_numbers: drawNumbers, status: 'simulated', simulated_at: new Date().toISOString() })
@@ -139,7 +127,6 @@ router.post('/:id/simulate', authenticate, requireAdmin, async (req, res) => {
   }
 });
 
-// ─── Publish Draw (admin) ─────────────────────────────────────────────────────
 router.post('/:id/publish', authenticate, requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -149,7 +136,6 @@ router.post('/:id/publish', authenticate, requireAdmin, async (req, res) => {
     if (draw.status === 'published') return res.status(400).json({ error: 'Draw already published' });
     if (!draw.draw_numbers) return res.status(400).json({ error: 'Run simulation first' });
 
-    // Get all active subscribers with their 5 latest scores
     const { data: subscribers } = await supabase
       .from('users')
       .select('id, scores(score, date)')
@@ -160,7 +146,6 @@ router.post('/:id/publish', authenticate, requireAdmin, async (req, res) => {
     const activeCount = eligible.length;
     const basePool = activeCount * POOL_CONTRIBUTION_MONTHLY;
 
-    // Check for rollover from previous month's jackpot
     const { data: prevUnwon } = await supabase
       .from('prize_pools')
       .select('jackpot_pool, jackpot_rolled')
@@ -174,7 +159,6 @@ router.post('/:id/publish', authenticate, requireAdmin, async (req, res) => {
     const fourPool    = basePool * POOL_SPLIT.four;
     const threePool   = basePool * POOL_SPLIT.three;
 
-    // Insert prize pool record
     const { data: pool, error: poolError } = await supabase
       .from('prize_pools')
       .insert({
@@ -190,7 +174,6 @@ router.post('/:id/publish', authenticate, requireAdmin, async (req, res) => {
 
     if (poolError) throw poolError;
 
-    // Determine winners and insert
     const winnersByTier = { '5-match': [], '4-match': [], '3-match': [] };
 
     for (const user of eligible) {
@@ -206,7 +189,6 @@ router.post('/:id/publish', authenticate, requireAdmin, async (req, res) => {
       }
     }
 
-    // Calculate per-winner prize amounts
     const winnerInserts = [];
     const buildWinners = (pool, type, userIds) => {
       if (userIds.length === 0) return;
@@ -230,7 +212,6 @@ router.post('/:id/publish', authenticate, requireAdmin, async (req, res) => {
       await supabase.from('winners').insert(winnerInserts);
     }
 
-    // Handle jackpot rollover if no 5-match winner
     const jackpotRolled = winnersByTier['5-match'].length === 0;
     if (jackpotRolled) {
       await supabase
@@ -239,7 +220,6 @@ router.post('/:id/publish', authenticate, requireAdmin, async (req, res) => {
         .eq('id', pool.id);
     }
 
-    // Publish the draw
     const { data: updatedDraw } = await supabase
       .from('draws')
       .update({ status: 'published', published_at: new Date().toISOString(), jackpot_rolled: jackpotRolled })
@@ -258,7 +238,6 @@ router.post('/:id/publish', authenticate, requireAdmin, async (req, res) => {
   }
 });
 
-// ─── Helper: Generate Random Draw Numbers ─────────────────────────────────────
 function generateRandomNumbers() {
   const numbers = new Set();
   while (numbers.size < 5) {
@@ -267,9 +246,8 @@ function generateRandomNumbers() {
   return Array.from(numbers);
 }
 
-// ─── Helper: Generate Algorithmic Numbers (weighted by most/least common scores) ──
 function generateAlgorithmicNumbers(subscribers) {
-  // Tally all scores across all subscribers
+
   const frequency = {};
   for (const user of subscribers) {
     for (const s of user.scores) {
@@ -277,13 +255,11 @@ function generateAlgorithmicNumbers(subscribers) {
     }
   }
 
-  // Weight: less frequent scores are slightly more likely (harder to match = bigger prize)
   const scoreList = Object.entries(frequency).map(([score, count]) => ({
     score: parseInt(score),
     weight: 1 / count, // inverse frequency
   }));
 
-  // Weighted random selection
   const selected = new Set();
   while (selected.size < 5 && scoreList.length > 0) {
     const totalWeight = scoreList.reduce((sum, s) => sum + s.weight, 0);
@@ -297,7 +273,6 @@ function generateAlgorithmicNumbers(subscribers) {
     }
   }
 
-  // Fill remaining with random if needed
   while (selected.size < 5) {
     selected.add(Math.floor(Math.random() * 45) + 1);
   }
@@ -305,7 +280,6 @@ function generateAlgorithmicNumbers(subscribers) {
   return Array.from(selected);
 }
 
-// ─── Helper: Count matching numbers ──────────────────────────────────────────
 function countMatches(userNumbers, drawNumbers) {
   return userNumbers.filter(n => drawNumbers.includes(n)).length;
 }

@@ -17,7 +17,7 @@ export default function DrawsPage() {
   }
 
   useEffect(() => {
-    // default to next month YYYY-MM
+
     const date = new Date()
     date.setMonth(date.getMonth() + 1)
     setNewMonth(date.toISOString().slice(0, 7))

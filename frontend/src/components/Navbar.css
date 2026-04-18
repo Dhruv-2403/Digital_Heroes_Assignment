@@ -22,7 +22,7 @@
   gap: 1rem;
 }
 
-/* Logo */
+
 .navbar__logo {
   display: flex;
   align-items: center;
@@ -36,7 +36,7 @@
 .navbar__logo-image { height: 32px; width: auto; display: block; }
 .navbar__logo-text span { color: var(--color-primary); }
 
-/* Desktop nav links */
+
 .navbar__links {
   display: flex;
   align-items: center;
@@ -64,14 +64,14 @@
 .navbar__links a.active::after,
 .navbar__links a:hover::after { transform: scaleX(1); }
 
-/* Desktop actions */
+
 .navbar__actions {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-/* Hamburger */
+
 .navbar__burger {
   display: none;
   flex-direction: column;
@@ -92,7 +92,7 @@
 .navbar__burger.open span:nth-child(2) { opacity: 0; }
 .navbar__burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-/* Mobile Menu */
+
 .navbar__mobile {
   display: none;
   flex-direction: column;

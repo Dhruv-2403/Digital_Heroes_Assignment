@@ -8,9 +8,7 @@ export default function WinnersPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Note: We'd typically have a public endpoint for winners of published draws.
-    // For this prototype, if the user doesn't have an endpoint, we'll try to fetch draws
-    // and filter to published ones.
+
     api.get('/draws')
       .then(({ data }) => {
         const published = (data.draws || []).filter(d => d.status === 'published')
@@ -65,7 +63,7 @@ export default function WinnersPage() {
                   <div className="draw-result-card__body mt-xl">
                     <div className="prize-tiers-result grid-3 mb-lg">
                       
-                      {/* Jackpot Tier */}
+                      {}
                       <div className="tier-result-card">
                         <div className="tier-header flex-between mb-md">
                           <span className="font-heading font-bold text-gold">5-Match</span>
@@ -85,7 +83,7 @@ export default function WinnersPage() {
                         )}
                       </div>
 
-                      {/* 4-Match Tier */}
+                      {}
                       <div className="tier-result-card">
                         <div className="tier-header flex-between mb-md">
                           <span className="font-heading font-bold">4-Match</span>
@@ -99,7 +97,7 @@ export default function WinnersPage() {
                         </div>
                       </div>
 
-                      {/* 3-Match Tier */}
+                      {}
                       <div className="tier-result-card">
                         <div className="tier-header flex-between mb-md">
                           <span className="font-heading font-bold">3-Match</span>

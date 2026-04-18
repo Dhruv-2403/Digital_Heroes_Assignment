@@ -7,11 +7,9 @@ const morgan = require('morgan');
 const app = express();
 const PORT = 5001;
 
-// ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(helmet());
 app.use(morgan('dev'));
 
-// Stripe webhook needs raw body — must be before express.json()
 app.use('/api/webhooks/stripe', express.raw({ type: 'application/json' }));
 
 app.use(express.json());
@@ -23,7 +21,6 @@ app.use(cors({
   credentials: true,
 }));
 
-// ─── Routes ──────────────────────────────────────────────────────────────────
 app.use('/api/auth',          require('./routes/auth'));
 app.use('/api/subscriptions', require('./routes/subscriptions'));
 app.use('/api/scores',        require('./routes/scores'));
@@ -33,12 +30,10 @@ app.use('/api/winners',       require('./routes/winners'));
 app.use('/api/admin',         require('./routes/admin'));
 app.use('/api/webhooks',      require('./routes/webhooks'));
 
-// ─── Health Check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// ─── Global Error Handler ─────────────────────────────────────────────────────
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({

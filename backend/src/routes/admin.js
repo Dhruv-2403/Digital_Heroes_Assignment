@@ -2,7 +2,6 @@ const router = require('express').Router();
 const supabase = require('../lib/supabase');
 const { authenticate, requireAdmin } = require('../middleware/auth');
 
-// ─── Dashboard Stats ──────────────────────────────────────────────────────────
 router.get('/stats', authenticate, requireAdmin, async (req, res) => {
   try {
     const [
@@ -41,7 +40,6 @@ router.get('/stats', authenticate, requireAdmin, async (req, res) => {
   }
 });
 
-// ─── List All Users ───────────────────────────────────────────────────────────
 router.get('/users', authenticate, requireAdmin, async (req, res) => {
   const { data, error } = await supabase
     .from('users')
@@ -52,7 +50,6 @@ router.get('/users', authenticate, requireAdmin, async (req, res) => {
   res.json({ users: data });
 });
 
-// ─── Get Single User ──────────────────────────────────────────────────────────
 router.get('/users/:id', authenticate, requireAdmin, async (req, res) => {
   const { data, error } = await supabase
     .from('users')
@@ -64,7 +61,6 @@ router.get('/users/:id', authenticate, requireAdmin, async (req, res) => {
   res.json({ user: data });
 });
 
-// ─── Edit User (admin) ────────────────────────────────────────────────────────
 router.patch('/users/:id', authenticate, requireAdmin, async (req, res) => {
   try {
     const { name, email, role } = req.body;
@@ -81,7 +77,6 @@ router.patch('/users/:id', authenticate, requireAdmin, async (req, res) => {
   }
 });
 
-// ─── Admin: Edit User Score ───────────────────────────────────────────────────
 router.patch('/users/:userId/scores/:scoreId', authenticate, requireAdmin, async (req, res) => {
   try {
     const { score, date } = req.body;
@@ -99,7 +94,6 @@ router.patch('/users/:userId/scores/:scoreId', authenticate, requireAdmin, async
   }
 });
 
-// ─── Admin: Manage Subscription ───────────────────────────────────────────────
 router.patch('/subscriptions/:id', authenticate, requireAdmin, async (req, res) => {
   try {
     const { status } = req.body;
@@ -116,7 +110,6 @@ router.patch('/subscriptions/:id', authenticate, requireAdmin, async (req, res) 
   }
 });
 
-// ─── Charity Contribution Report ──────────────────────────────────────────────
 router.get('/reports/charity', authenticate, requireAdmin, async (req, res) => {
   const { data, error } = await supabase
     .from('users')
@@ -125,7 +118,6 @@ router.get('/reports/charity', authenticate, requireAdmin, async (req, res) => {
 
   if (error) return res.status(500).json({ error: error.message });
 
-  // Group totals by charity
   const MONTHLY_FEE = 10; // Example: £10/month
   const YEARLY_FEE  = 100;
 

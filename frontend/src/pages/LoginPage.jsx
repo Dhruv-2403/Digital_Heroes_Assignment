@@ -33,14 +33,14 @@ export default function LoginPage() {
       <div className="glow-orb auth-orb2" />
 
       <div className="auth-card">
-        {/* Header */}
+        {}
         <div className="auth-card__header">
           <Link to="/" className="auth-logo">⛳ Digital<span>Heroes</span></Link>
           <h1>Welcome back</h1>
           <p>Sign in to your account</p>
         </div>
 
-        {/* Form */}
+        {}
         <form onSubmit={handleSubmit} className="auth-form">
           {error && <div className="auth-alert">{error}</div>}
 
@@ -82,7 +82,7 @@ export default function LoginPage() {
           <p>Don't have an account? <Link to="/signup">Sign up free</Link></p>
         </div>
 
-        {/* Demo credentials hint */}
+        {}
         <div className="auth-demo-hint">
           <strong>Demo Admin:</strong> admin@digitalheroes.com / Admin@123
         </div>

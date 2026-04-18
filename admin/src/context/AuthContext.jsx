@@ -7,16 +7,15 @@ export function AuthProvider({ children }) {
   const [user, setUser]       = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // On mount — restore session from localStorage
   useEffect(() => {
     const token = localStorage.getItem('dh_admin_token')
     const saved = localStorage.getItem('dh_admin_user')
     if (token && saved) {
       setUser(JSON.parse(saved))
-      // Re-validate token with server
+
       api.get('/auth/me')
         .then(({ data }) => {
-          // ensure it's still an admin role
+
           if (data.user.role !== 'admin') {
             logout()
           } else {

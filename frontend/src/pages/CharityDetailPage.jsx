@@ -11,8 +11,7 @@ export default function CharityDetailPage() {
   
   const [charity, setCharity] = useState(null)
   const [loading, setLoading] = useState(true)
-  
-  // Selection state
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [charityPct, setCharityPct] = useState(user?.charity_percentage || 10)
 
@@ -51,7 +50,7 @@ export default function CharityDetailPage() {
 
   return (
     <div className="charity-detail-page">
-      {/* Hero */}
+      {}
       <div className="charity-detail-hero">
         {charity.image_url && <div className="charity-detail-hero__bg" style={{backgroundImage: `url(${charity.image_url})`}} />}
         <div className="charity-detail-hero__overlay" />
@@ -66,7 +65,7 @@ export default function CharityDetailPage() {
 
       <div className="container section">
         <div className="charity-detail-grid">
-          {/* Main Content */}
+          {}
           <div className="charity-detail-main">
             <h2>About this Cause</h2>
             <div className="charity-description mt-lg">
@@ -84,7 +83,7 @@ export default function CharityDetailPage() {
             </div>
           </div>
 
-          {/* Sidebar Action */}
+          {}
           <div className="charity-detail-sidebar">
             <div className="card-glass selection-card">
               <h3 className="mb-md">Support {charity.name}</h3>

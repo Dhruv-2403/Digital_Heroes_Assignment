@@ -14,7 +14,6 @@ const authenticate = async (req, res, next) => {
     const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Fetch fresh user data from Supabase
     const { data: user, error } = await supabase
       .from('users')
       .select('*, subscriptions(*)')

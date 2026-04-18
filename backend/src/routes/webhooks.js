@@ -3,7 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const supabase = require('../lib/supabase');
 
 // POST /api/webhooks/stripe
-// Express.raw() is applied to this route in index.js
+
 router.post('/stripe', async (req, res) => {
   const sig = req.headers['stripe-signature'];
 
@@ -17,12 +17,10 @@ router.post('/stripe', async (req, res) => {
 
   try {
     switch (event.type) {
-      // ── New subscription created (checkout completed) ─────────────────────
       case 'checkout.session.completed': {
         const session = event.data.object;
         const { userId, plan } = session.metadata;
 
-        // Get the full Stripe subscription to extract period end
         const stripeSub = await stripe.subscriptions.retrieve(session.subscription);
 
         await supabase.from('subscriptions').upsert({
@@ -37,7 +35,6 @@ router.post('/stripe', async (req, res) => {
         break;
       }
 
-      // ── Subscription renewed ──────────────────────────────────────────────
       case 'invoice.payment_succeeded': {
         const invoice = event.data.object;
         if (invoice.billing_reason === 'subscription_cycle') {
@@ -53,7 +50,6 @@ router.post('/stripe', async (req, res) => {
         break;
       }
 
-      // ── Payment failed ────────────────────────────────────────────────────
       case 'invoice.payment_failed': {
         const invoice = event.data.object;
         await supabase
@@ -63,7 +59,6 @@ router.post('/stripe', async (req, res) => {
         break;
       }
 
-      // ── Subscription cancelled or expired ─────────────────────────────────
       case 'customer.subscription.deleted': {
         const sub = event.data.object;
         await supabase
@@ -73,7 +68,6 @@ router.post('/stripe', async (req, res) => {
         break;
       }
 
-      // ── Subscription updated (plan change, cancel_at_period_end, etc.) ───
       case 'customer.subscription.updated': {
         const sub = event.data.object;
         await supabase

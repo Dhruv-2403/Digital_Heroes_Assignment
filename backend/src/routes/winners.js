@@ -3,10 +3,8 @@ const supabase = require('../lib/supabase');
 const { authenticate, requireAdmin } = require('../middleware/auth');
 const multer = require('multer');
 
-// Use memory storage — we'll upload to Supabase Storage
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 
-// ─── Get My Winnings ──────────────────────────────────────────────────────────
 router.get('/my', authenticate, async (req, res) => {
   const { data, error } = await supabase
     .from('winners')
@@ -18,10 +16,9 @@ router.get('/my', authenticate, async (req, res) => {
   res.json({ winners: data });
 });
 
-// ─── Upload Proof (winner only) ───────────────────────────────────────────────
 router.post('/:id/proof', authenticate, upload.single('proof'), async (req, res) => {
   try {
-    // Verify this winner record belongs to user
+
     const { data: winner } = await supabase
       .from('winners')
       .select('*')
@@ -32,7 +29,6 @@ router.post('/:id/proof', authenticate, upload.single('proof'), async (req, res)
     if (!winner) return res.status(404).json({ error: 'Winner record not found' });
     if (!req.file) return res.status(400).json({ error: 'Proof file is required' });
 
-    // Upload to Supabase Storage
     const filename = `proofs/${req.user.id}/${req.params.id}-${Date.now()}.${req.file.originalname.split('.').pop()}`;
     const { data: upload, error: uploadError } = await supabase.storage
       .from('winner-proofs')
@@ -56,7 +52,6 @@ router.post('/:id/proof', authenticate, upload.single('proof'), async (req, res)
   }
 });
 
-// ─── Admin: List All Winners ──────────────────────────────────────────────────
 router.get('/', authenticate, requireAdmin, async (req, res) => {
   const { data, error } = await supabase
     .from('winners')
@@ -67,7 +62,6 @@ router.get('/', authenticate, requireAdmin, async (req, res) => {
   res.json({ winners: data });
 });
 
-// ─── Admin: Approve or Reject Winner ─────────────────────────────────────────
 router.patch('/:id/verify', authenticate, requireAdmin, async (req, res) => {
   try {
     const { action } = req.body; // 'approve' | 'reject'
@@ -89,7 +83,6 @@ router.patch('/:id/verify', authenticate, requireAdmin, async (req, res) => {
   }
 });
 
-// ─── Admin: Mark as Paid ──────────────────────────────────────────────────────
 router.patch('/:id/pay', authenticate, requireAdmin, async (req, res) => {
   try {
     const { data, error } = await supabase

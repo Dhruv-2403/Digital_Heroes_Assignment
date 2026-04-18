@@ -13,7 +13,7 @@
   margin: 0 auto 2rem;
 }
 
-/* Billing Toggle */
+
 .billing-toggle {
   display: flex;
   align-items: center;
@@ -68,7 +68,7 @@
   transform: translateX(26px);
 }
 
-/* Pricing Cards */
+
 .pricing-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

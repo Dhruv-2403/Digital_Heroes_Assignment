@@ -49,7 +49,7 @@ export default function SubscribePage() {
         </div>
 
         <div className="pricing-cards">
-          {/* Monthly Plan */}
+          {}
           <div className={`pricing-card ${plan === 'monthly' ? 'selected' : ''}`} onClick={() => setPlan('monthly')}>
             {plan === 'monthly' && <div className="pricing-card__badge">Selected</div>}
             <h3>Monthly Plan</h3>
@@ -64,7 +64,7 @@ export default function SubscribePage() {
             </ul>
           </div>
 
-          {/* Yearly Plan */}
+          {}
           <div className={`pricing-card pricing-card--featured ${plan === 'yearly' ? 'selected' : ''}`} onClick={() => setPlan('yearly')}>
             <div className="pricing-card__glow" />
             {plan === 'yearly' && <div className="pricing-card__badge">Selected</div>}

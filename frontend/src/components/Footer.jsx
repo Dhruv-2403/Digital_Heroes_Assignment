@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer__grid">
-          {/* Brand */}
+          {}
           <div className="footer__brand">
             <div className="footer__logo">
               <span>⛳</span>
@@ -15,7 +15,7 @@ export default function Footer() {
             <p>Play. Win. Give.<br />Golf performance meets charitable impact.</p>
           </div>
 
-          {/* Platform */}
+          {}
           <div className="footer__col">
             <h4>Platform</h4>
             <ul>
@@ -26,7 +26,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Account */}
+          {}
           <div className="footer__col">
             <h4>Account</h4>
             <ul>
@@ -36,7 +36,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
+          {}
           <div className="footer__col">
             <h4>Legal</h4>
             <ul>

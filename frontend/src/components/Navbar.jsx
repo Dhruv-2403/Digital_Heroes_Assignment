@@ -24,20 +24,20 @@ export default function Navbar() {
   return (
     <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <div className="container navbar__inner">
-        {/* Logo */}
+        {}
         <Link to="/" className="navbar__logo">
           <img src="/image.png" alt="Digital Heroes Logo" className="navbar__logo-image" />
           <span className="navbar__logo-text">Digital<span>Heroes</span></span>
         </Link>
 
-        {/* Desktop Nav */}
+        {}
         <nav className="navbar__links">
           <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
           <NavLink to="/charities" className={({ isActive }) => isActive ? 'active' : ''}>Charities</NavLink>
           <NavLink to="/winners" className={({ isActive }) => isActive ? 'active' : ''}>Winners</NavLink>
         </nav>
 
-        {/* Desktop CTA */}
+        {}
         <div className="navbar__actions">
           {user ? (
             <>
@@ -52,7 +52,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile Hamburger */}
+        {}
         <button
           className={`navbar__burger ${menuOpen ? 'open' : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -62,7 +62,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {}
       <div className={`navbar__mobile ${menuOpen ? 'navbar__mobile--open' : ''}`}>
         <NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink>
         <NavLink to="/charities" onClick={() => setMenuOpen(false)}>Charities</NavLink>
