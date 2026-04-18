@@ -7,21 +7,24 @@ const morgan = require('morgan');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+app.use(cors({
+  origin: [
+    'https://digital-heroes-assignment-alpha.vercel.app',
+    'https://digital-heroes-assignment-ha1l.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    process.env.FRONTEND_URL,
+    process.env.ADMIN_URL
+  ].filter(Boolean),
+  credentials: true,
+  optionsSuccessStatus: 200
+}));
+
 app.use(helmet());
 app.use(morgan('dev'));
 
 app.use('/api/webhooks/stripe', express.raw({ type: 'application/json' }));
-
 app.use(express.json());
-app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || 'https://digital-heroes-assignment-alpha.vercel.app',
-    process.env.ADMIN_URL || 'https://digital-heroes-assignment-ha1l.vercel.app',
-    'http://localhost:5173',
-    'http://localhost:5174',
-  ],
-  credentials: true
-}));
 
 app.get('/', (req, res) => {
   res.json({ message: 'Digital Heroes API is live', documentation: '/README.md' });
